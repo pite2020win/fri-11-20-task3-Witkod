@@ -32,3 +32,42 @@
 #Delete these comments before commit!
 #
 #Good luck.
+
+class Matrixx:
+  def __init__(self, row1, row2):
+    self.row1 = [row1[0], row1[1]]
+    self.row2 = [row2[0], row2[1]]
+
+  def summary(self, matrix):  
+    for i in range(self.row1):
+      self.row1[i] += matrix.row1[i]
+    for i in range(self.row2):
+      self.row1[2] += matrix.row1[2] 
+
+  def dot(self):
+    pass
+
+  def substraction(self):
+    pass
+
+  def invertion(self):
+    pass
+
+  def __str__(self):
+    print("[")
+    for value in row1:
+      print("[{value}]".format(value))
+    print("]\n[")
+    for value in row1:
+      print("[{value}]".format(value))
+    print("]\n[")
+
+  from 
+
+  if __name__ == "__main__":
+    matrix_1 = Matrixx([1,2], [3,4])
+    matrix_2 = Matrixx([1,2], [3,4])
+
+    matrix_1.summary(matrix_2)
+    print(matrix_1)
+
