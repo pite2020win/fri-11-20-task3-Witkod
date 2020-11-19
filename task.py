@@ -78,24 +78,43 @@ class Matrix:
             text += "\n"
         return text
 
-    def __add__(self, second_matrix):
+    def __add__(self, second):
         data = []
-        if self.dim_amount != second_matrix.dim_amount:
-            raise Dim_Exception()
-        # if isinstance()
-        for row_nr in range(self.dim_amount):
-            data.append(
-                [x+y for x, y in zip(self.data[row_nr], second_matrix.data[row_nr])])
-        return Matrix(data)
+        if type(second) == Matrix:
+            if self.dim_amount != second.dim_amount:
+                raise Dim_Exception()
+            for row_nr in range(self.dim_amount):
+                data.append(
+                    [x+y for x, y in zip(self.data[row_nr], second.data[row_nr])])
+            return Matrix(data)
 
-    def __sub__(self, second_matrix):
+        elif type(second) in [int, float]:
+            for row_nr in range(self.dim_amount):
+                data.append(
+                    [x+second for x in self.data[row_nr]])
+            return Matrix(data)
+
+    def __radd__(self, second):
+        return self+second
+
+    def __sub__(self, second):
         data = []
-        if self.dim_amount != second_matrix.dim_amount:
-            raise Dim_Exception()
-        for row_nr in range(self.dim_amount):
-            data.append(
-                [x-y for x, y in zip(self.data[row_nr], second_matrix.data[row_nr])])
-        return Matrix(data)
+        if type(second) == Matrix:
+            if self.dim_amount != second.dim_amount:
+                raise Dim_Exception()
+            for row_nr in range(self.dim_amount):
+                data.append(
+                    [x-y for x, y in zip(self.data[row_nr], second.data[row_nr])])
+            return Matrix(data)
+
+        elif type(second) in [int, float]:
+            for row_nr in range(self.dim_amount):
+                data.append(
+                    [x-second for x in self.data[row_nr]])
+            return Matrix(data)
+
+    def __rsub__(self, second):
+        return self-second
 
     def __mul__(self, value):
         data = []
@@ -115,7 +134,7 @@ class Matrix:
             for j in range(self.dim_amount):
                 for k in range(self.dim_amount):
                     data[i][j] += self.data[i][k] + second_matrix.data[k][j]
-        return data
+        return Matrix(data)
 
 
 if __name__ == "__main__":
@@ -124,7 +143,12 @@ if __name__ == "__main__":
         matrix1 = Matrix.create_from_list(1, 2, 3, 4)
         matrix2 = Matrix([[5, 6], [7, 8]])
 
-        matrix3 = matrix1 @ matrix2
-        print(matrix3)
+        print(f"matrix1 @ matrix2: \n{matrix1 @ matrix2}")
+        print(f"matrix1 - matrix2: \n{matrix1 - matrix2}")
+        print(f"matrix1 + matrix2: \n{matrix1 + matrix2}")
+        print(f"matrix1 + 5: \n{matrix1 + 5}")
+        print(f"matrix1 - 5: \n{matrix1 - 5}")
+        print(f"5 + matrix1: \n{5 + matrix1}")
+        print(f"5 - matrix1: \n{5 - matrix1}")
     except Dim_Exception:
         logging.getLogger().error("Matices have not the same size")
